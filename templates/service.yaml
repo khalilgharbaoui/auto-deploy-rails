@@ -17,6 +17,5 @@ spec:
     name: {{ .Values.service.name }}
   selector:
     app: {{ template "appname" . }}
-    release: {{ .Release.Name }}
     tier: "{{ .Values.application.tier }}"
 {{- end -}}
