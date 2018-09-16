@@ -18,6 +18,10 @@ service:
   url: http://my.host.com/
   externalPort: 5000
   internalPort: 5000
+dbHooks:
+  enabled: true
+  initializeCommand:
+  migrateCommand:
 postgresql:
   enabled: true
 resources:
