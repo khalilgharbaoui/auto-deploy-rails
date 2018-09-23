@@ -11,6 +11,8 @@ image:
 application:
   track: stable
   tier: web
+  migrateCommand:
+  initializeCommand:
 service:
   enabled: true
   name: web
@@ -18,10 +20,6 @@ service:
   url: http://my.host.com/
   externalPort: 5000
   internalPort: 5000
-dbHooks:
-  enabled: true
-  initializeCommand:
-  migrateCommand:
 postgresql:
   enabled: true
 resources:

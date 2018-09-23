@@ -1,5 +1,4 @@
-{{- if .Values.dbHooks.enabled -}}
-{{- if .Values.dbHooks.initializeCommand -}}
+{{- if .Values.application.initializeCommand -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -28,10 +27,9 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: ["/bin/sh"]
-        args: ["-c", "{{ .Values.dbHooks.initializeCommand }}"]
+        args: ["-c", "{{ .Values.application.initializeCommand }}"]
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
-{{- end -}}
 {{- end -}}
