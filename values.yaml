@@ -11,6 +11,8 @@ image:
 application:
   track: stable
   tier: web
+  migrateCommand:
+  initializeCommand:
 service:
   enabled: true
   name: web
