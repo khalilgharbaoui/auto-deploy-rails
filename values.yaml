@@ -13,6 +13,7 @@ application:
   tier: web
   migrateCommand:
   initializeCommand:
+  secretName:
 service:
   enabled: true
   name: web
