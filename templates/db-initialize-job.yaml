@@ -29,6 +29,11 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "{{ .Values.application.initializeCommand }}"]
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.application.secretName }}
+        envFrom:
+        - secretRef:
+            name: {{ .Values.application.secretName }}
+        {{- end }}
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
