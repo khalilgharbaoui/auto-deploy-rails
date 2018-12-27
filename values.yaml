@@ -21,6 +21,14 @@ service:
   url: http://my.host.com/
   externalPort: 5000
   internalPort: 5000
+livenessProbe:
+  path: "/"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+readinessProbe:
+  path: "/"
+  initialDelaySeconds: 5
+  timeoutSeconds: 3 
 postgresql:
   enabled: true
 resources:
