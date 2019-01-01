@@ -22,6 +22,7 @@
 | service.name                  |             | `web`                              |
 | service.type                  |             | `ClusterIP`                        |
 | service.url                   |             | `http://my.host.com/`              |
+| service.alias                 | If present, this will create an additional server configuration, but with a different server_name. | `nil` |
 | service.externalPort          |             | `5000`                             |
 | service.internalPort          |             | `5000`                             |
 | postgresql.enabled            |             | `true`                             |
