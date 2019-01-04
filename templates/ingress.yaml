@@ -11,11 +11,15 @@ metadata:
   annotations:
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/server-alias: {{ .Values.service.alias }}
 spec:
   tls:
   - hosts:
     - {{ template "hostname" .Values.service.url }}
+{{- if .Values.service.additionalHosts }}
+{{- range $host := .Values.service.additionalHosts }}
+    - {{ $host }}
+{{- end -}}
+{{- end }}
     secretName: {{ template "fullname" . }}-tls
   rules:
   - host: {{ template "hostname" .Values.service.url }}
@@ -25,4 +29,15 @@ spec:
         backend:
           serviceName: {{ template "fullname" . }}
           servicePort: {{ .Values.service.externalPort }}
+{{- if .Values.service.additionalHosts }}
+{{- range $host := .Values.service.additionalHosts }}
+  - host: {{ $host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "fullname" $ }}
+          servicePort: {{ $.Values.service.externalPort }}
+{{- end -}}
+{{- end -}}
 {{- end -}}

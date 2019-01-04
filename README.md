@@ -22,7 +22,7 @@
 | service.name                  |             | `web`                              |
 | service.type                  |             | `ClusterIP`                        |
 | service.url                   |             | `http://my.host.com/`              |
-| service.alias                 | If present, this will add an additional hostname to the server configuration. | `nil` |
+| service.additionalHosts       | If present, this list will add additional hostnames to the server configuration. | `nil` |
 | service.externalPort          |             | `5000`                             |
 | service.internalPort          |             | `5000`                             |
 | postgresql.enabled            |             | `true`                             |
