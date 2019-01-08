@@ -19,6 +19,7 @@ service:
   name: web
   type: ClusterIP
   url: http://my.host.com/
+  additionalHosts:
   externalPort: 5000
   internalPort: 5000
 postgresql:
