@@ -31,3 +31,11 @@ resources:
 #  requests:
 #    cpu: 100m
 #    memory: 128Mi
+
+## Configure PodDisruptionBudget
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+#
+podDisruptionBudget:
+  enabled: false
+  # minAvailable: 1
+  maxUnavailable: 1
