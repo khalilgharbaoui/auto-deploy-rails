@@ -27,3 +27,6 @@
 | service.externalPort          |             | `5000`                             |
 | service.internalPort          |             | `5000`                             |
 | postgresql.enabled            |             | `true`                             |
+| podDisruptionBudget.enabled   |             | `false`                            |
+| podDisruptionBudget.maxUnavailable |             | `1`                            |
+| podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |
