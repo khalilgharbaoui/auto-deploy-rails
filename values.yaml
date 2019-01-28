@@ -21,6 +21,7 @@ service:
   type: ClusterIP
   url: http://my.host.com/
   additionalHosts:
+  commonName:
   externalPort: 5000
   internalPort: 5000
 livenessProbe:
@@ -30,7 +31,7 @@ livenessProbe:
 readinessProbe:
   path: "/"
   initialDelaySeconds: 5
-  timeoutSeconds: 3 
+  timeoutSeconds: 3
 postgresql:
   enabled: true
 resources:

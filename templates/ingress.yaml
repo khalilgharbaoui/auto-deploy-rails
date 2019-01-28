@@ -14,6 +14,9 @@ metadata:
 spec:
   tls:
   - hosts:
+{{- if .Values.service.commonName }}
+    - {{ template "hostname" .Values.service.commonName }}
+{{- end }}
     - {{ template "hostname" .Values.service.url }}
 {{- if .Values.service.additionalHosts }}
 {{- range $host := .Values.service.additionalHosts }}
@@ -24,20 +27,22 @@ spec:
   rules:
   - host: {{ template "hostname" .Values.service.url }}
     http:
+      &httpRule
       paths:
       - path: /
         backend:
           serviceName: {{ template "fullname" . }}
           servicePort: {{ .Values.service.externalPort }}
+{{- if .Values.service.commonName }}
+  - host: {{ template "hostname" .Values.service.commonName }}
+    http:
+      <<: *httpRule
+{{- end -}}
 {{- if .Values.service.additionalHosts }}
 {{- range $host := .Values.service.additionalHosts }}
   - host: {{ $host }}
     http:
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ template "fullname" $ }}
-          servicePort: {{ $.Values.service.externalPort }}
+      <<: *httpRule
 {{- end -}}
 {{- end -}}
 {{- end -}}
