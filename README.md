@@ -27,6 +27,12 @@
 | service.commonName            | If present, this will define the ssl certificate common name to be used by CertManager. `service.url` and `service.additionalHosts` will be added as Subject Alternative Names (SANs) | `nil` |
 | service.externalPort          |             | `5000`                             |
 | service.internalPort          |             | `5000`                             |
+| livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
+| livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
+| livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
+| readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
+| readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
+| readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | postgresql.enabled            |             | `true`                             |
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
