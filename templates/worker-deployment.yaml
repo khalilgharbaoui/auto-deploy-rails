@@ -25,11 +25,30 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.image.secrets | indent 10 }}
       containers:
-      - name: {{ .Chart.Name }}
+      - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - {{ .Values.worker.command }}
+        {{- if .Values.worker.sidekiq_alive.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.worker.sidekiq_alive.livenessProbe.path }}
+            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.worker.sidekiq_alive.readinessProbe.path }}
+            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
+        lifecycle:
+          preStop:
+            exec:
+              # SIGTERM triggers a quick exit; gracefully terminate instead
+              command: ["bundle", "exec", "sidekiqctl", "quiet"]
+        {{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:
