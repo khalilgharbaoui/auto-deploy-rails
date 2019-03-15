@@ -36,7 +36,6 @@ worker:
   enabled: true
   command: 'bundle exec sidekiq' # Note: Will override entrypoint.
   replicaCount: 1
-  test_gaws: true
   sidekiq_alive:
     enabled: true
     livenessProbe:
