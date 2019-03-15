@@ -1,4 +1,10 @@
-# GitLab's Auto-deploy Helm Chart
+# Auto-deploy rails chart
+
+Initially forked from GitLab's Auto-deploy Helm Chart, but due to need workers, this fork was created.
+
+Initially sidekiq is implemented.
+
+Delayed job should be a matter of adding the proper commands
 
 ## Requirements
 
@@ -33,6 +39,18 @@
 | readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
+| worker.enabled                |             | `true` |
+| worker.command                |             | `bundle exec sidekiq` |
+| worker.replicaCount           |             | 1 |
+| worker.sidekiq_alive.enabled  |             | `true` |
+| worker.sidekiq_alive.livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
+| worker.sidekiq_alive.livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
+| worker.sidekiq_alive.livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
+| worker.sidekiq_alive.livenessProbe.port  | Port for sidekiq_alive | `7433`                               |
+| worker.sidekiq_alive.readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
+| worker.sidekiq_alive.readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`   |
+| worker.sidekiq_alive.readinessProbe.port  | Port for sidekiq_alive | `7433`                               |
+| worker.sidekiq_alive.readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | postgresql.enabled            |             | `false`                            |
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
