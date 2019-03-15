@@ -2,16 +2,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "trackableappname" . }}
+  name: {{ template "trackableappname" . }}-worker
   labels:
-    app: {{ template "appname" . }}
+    app: {{ template "appname" . }}-worker
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.service.replicaCount }}
+  replicas: {{ .Values.worker.replicaCount }}
   template:
     metadata:
       annotations:
@@ -28,6 +28,8 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+          - {{ .Values.worker.command }}
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:
@@ -36,21 +38,18 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
-        ports:
-        - name: "{{ .Values.service.name }}"
-          containerPort: {{ .Values.service.internalPort }}
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.livenessProbe.path }}
-            port: {{ .Values.service.internalPort }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.readinessProbe.path }}
-            port: {{ .Values.service.internalPort }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        # livenessProbe:
+        #   httpGet:
+        #     path: {{ .Values.livenessProbe.path }}
+        #     port: {{ .Values.service.internalPort }}
+        #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+        #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        # readinessProbe:
+        #   httpGet:
+        #     path: {{ .Values.readinessProbe.path }}
+        #     port: {{ .Values.service.internalPort }}
+        #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+        #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- end -}}

@@ -25,15 +25,15 @@
 | service.url                   |             | `http://my.host.com/`              |
 | service.additionalHosts       | If present, this list will add additional hostnames to the server configuration. | `nil` |
 | service.commonName            | If present, this will define the ssl certificate common name to be used by CertManager. `service.url` and `service.additionalHosts` will be added as Subject Alternative Names (SANs) | `nil` |
-| service.externalPort          |             | `5000`                             |
-| service.internalPort          |             | `5000`                             |
+| service.externalPort          |             | `3000`                             |
+| service.internalPort          |             | `3000`                             |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
 | readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
-| postgresql.enabled            |             | `true`                             |
+| postgresql.enabled            |             | `false`                            |
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
 | podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |

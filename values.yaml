@@ -1,7 +1,6 @@
 # Default values for chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-replicaCount: 1
 image:
   repository: gitlab.example.com/group/project
   tag: stable
@@ -16,14 +15,19 @@ application:
   secretName:
   secretChecksum:
 service:
+  replicaCount: 1
   enabled: true
   name: web
   type: ClusterIP
   url: http://my.host.com/
   additionalHosts:
   commonName:
-  externalPort: 5000
-  internalPort: 5000
+  externalPort: 3000
+  internalPort: 3000
+worker:
+  enabled: true
+  command: 'bundle exec sidekiq'
+  replicaCount: 1
 livenessProbe:
   path: "/"
   initialDelaySeconds: 15
@@ -32,8 +36,8 @@ readinessProbe:
   path: "/"
   initialDelaySeconds: 5
   timeoutSeconds: 3
-postgresql:
-  enabled: true
+# postgresql:
+#   enabled: false
 resources:
 #  limits:
 #    cpu: 100m
