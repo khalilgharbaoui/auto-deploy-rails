@@ -10,6 +10,11 @@ Delayed job should be a matter of adding the proper commands
 
 - Helm `2.9.0` and above is required in order support `"helm.sh/hook-delete-policy": before-hook-creation` for migrations
 
+## TODO
+
+Implement automatic packaging similar to this blog post:
+https://medium.com/containerum/how-to-make-and-share-your-own-helm-package-50ae40f6c221
+
 ## Configuration
 
 | Parameter                     | Description | Default                            |
