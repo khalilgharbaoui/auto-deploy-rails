@@ -15,6 +15,9 @@ Delayed job should be a matter of adding the proper commands
 Implement automatic packaging similar to this blog post:
 https://medium.com/containerum/how-to-make-and-share-your-own-helm-package-50ae40f6c221
 
+For gitlab pages:
+https://tobiasmaier.info/posts/2018/03/13/hosting-helm-repo-on-gitlab-pages.html
+
 ## Configuration
 
 | Parameter                     | Description | Default                            |
