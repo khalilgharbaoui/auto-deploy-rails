@@ -1,5 +1,16 @@
 ## Contributing
 
+To contribute to auto-devops-rails, feel free to create PR or issue.
+
+For contributing to auto-devops-rails, please follow gitlabs code of conduct.
+
+
+## Upstream contribution (Original repo)
+
+Note: This is info from the original repository, if you want to do contribute upstream, 
+make sure to read the DCO as well as the Code of Conduct
+
+
 Thank you for your interest in contributing to this GitLab project! We welcome
 all contributions. By participating in this project, you agree to abide by the
 [code of conduct](#code-of-conduct).
