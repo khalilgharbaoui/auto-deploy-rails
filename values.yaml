@@ -49,8 +49,8 @@ worker:
       timeoutSeconds: 5 # Can be less
       port: 7433
 
-# postgresql:
-#   enabled: false
+postgresql:
+  enabled: false
 resources:
 #  limits:
 #    cpu: 100m
