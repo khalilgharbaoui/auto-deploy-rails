@@ -17,6 +17,7 @@ pages:
     - helm init --client-only
     - mkdir -p ./public
     - "echo \"User-Agent: *\nDisallow: /\" > ./public/robots.txt"
+    - helm dependency build
     - helm package . --destination ./public
     - helm repo index --url https://${CI_PROJECT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME} ./public
     - cp ./public/index.yaml ./chart_site/ && cp ./README.md ./chart_site/readme.md
