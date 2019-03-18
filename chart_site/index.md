@@ -18,7 +18,7 @@ This helm chart is written to deploy rails apps using Helm.
 <br>
 
 ## Options:
-See [readme](README.html)
+See [readme](readme.html)
 <br>
 <br>
 
