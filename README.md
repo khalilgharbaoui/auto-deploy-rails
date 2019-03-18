@@ -1,3 +1,9 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+---
 # Auto-deploy rails chart
 
 Initially forked from GitLab's Auto-deploy Helm Chart, but due to need workers, this fork was created.
@@ -10,13 +16,22 @@ Delayed job should be a matter of adding the proper commands
 
 - Helm `2.9.0` and above is required in order support `"helm.sh/hook-delete-policy": before-hook-creation` for migrations
 
-## TODO
+## Usage with helm
 
-Implement automatic packaging similar to this blog post:
-https://medium.com/containerum/how-to-make-and-share-your-own-helm-package-50ae40f6c221
+### With gitlab
 
-For gitlab pages:
-https://tobiasmaier.info/posts/2018/03/13/hosting-helm-repo-on-gitlab-pages.html
+In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
+
+Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io
+Set ```AUTO_DEVOPS_CHART``` to auto-deploy-rails
+
+### Manual Usage
+
+Add the repo
+
+```helm repo add auto-deploy-rails https://leifcr.gitlab.io/auto-deploy-rails/```
+
+Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master/values.yaml) from the repository and modify to fit your app.
 
 ## Configuration
 
@@ -63,3 +78,6 @@ https://tobiasmaier.info/posts/2018/03/13/hosting-helm-repo-on-gitlab-pages.html
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
 | podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |
+
+
+Static site generated with Jekyll. See chart_site folder for details
