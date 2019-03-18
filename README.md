@@ -22,7 +22,7 @@ Delayed job should be a matter of adding the proper commands
 
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
 
-Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io
+Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io/auto-deploy-rails
 Set ```AUTO_DEVOPS_CHART``` to auto-deploy-rails
 
 ### Manual Usage
