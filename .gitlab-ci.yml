@@ -1,10 +1,11 @@
-image: registry.gitlab.com/charts/alpine-helm
+image: ruby:2.6
 
 stages:
   - test
   - release
 
 lint:
+  image: registry.gitlab.com/charts/alpine-helm
   stage: test
   script:
     - helm lint .
@@ -12,14 +13,15 @@ lint:
 pages:
   stage: release
   script:
+    - wget https://storage.googleapis.com/kubernetes-helm/helm-v2.13.0-linux-amd64.tar.gz -O /tmp/helm.tar.gz && tar -zxvf /tmp/helm.tar.gz -C /tmp && mv /tmp/linux-amd64/helm /bin/
     - helm init --client-only
     - mkdir -p ./public
     - "echo \"User-Agent: *\nDisallow: /\" > ./public/robots.txt"
     - helm package . --destination ./public
     - helm repo index --url https://${CI_PROJECT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME} ./public
-    - cp ./public/index.yaml ./chart_site/ && cp ../README.md ./chart_site/readme.md
+    - cp ./public/index.yaml ./chart_site/ && cp ./README.md ./chart_site/readme.md
     - cd chart_site && bundle install
-    - jekyll build --destination ../public && rm ../public/feed.xml
+    - jekyll build --destination ../public && rm ../public/feed.xml && cd ..
   artifacts:
     paths:
       - public
