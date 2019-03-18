@@ -17,16 +17,16 @@ title: Auto Devops Rails for Gitlab
 email: leifcr@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Chart for deploying rails apps with Auto Devops on gitlab.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/auto-deploy-rails" # the subpath of your site, e.g. /blog
+url: "https://leifcr.gitlab.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: leifcr
 github_username:  leifcr
 
 # Build settings
 markdown: kramdown
 theme: minima
-plugins:
-  - jekyll-feed
+# plugins:
+  # - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
