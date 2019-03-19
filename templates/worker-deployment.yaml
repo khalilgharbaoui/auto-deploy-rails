@@ -46,7 +46,7 @@ spec:
           preStop:
             exec:
               # SIGTERM triggers a quick exit; gracefully terminate instead
-              command: ["bundle", "exec", "sidekiqctl", "quiet"]
+              command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid"]
         {{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
