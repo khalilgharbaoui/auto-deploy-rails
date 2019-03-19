@@ -17,7 +17,41 @@ Delayed job should be a matter of adding the proper commands
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
 
 Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io/auto-deploy-rails
-Set ```AUTO_DEVOPS_CHART``` to auto-deploy-rails
+Set ```AUTO_DEVOPS_CHART``` to gitlab/auto-deploy-rails
+
+*Note:* due to a bug in the .gitlab-ci.yml, you need to use gitlab/auto-deploy-rails instead of auto-deploy-rails/auto-deploy-rails, 
+even if the latter makes sense looking at the repo. This will conflict if you are using gitlab charts on the same helm instance. As 
+you are unlikely to use gitlab charts during deployment, it should work. If you use gitlab charts as well, look at the solution below.
+
+You can also opt to change download_chart in gitlab-ci.yml to the following:
+
+```
+function download_chart() {
+  if [[ ! -d chart ]]; then
+    auto_chart=${AUTO_DEVOPS_CHART:-gitlab/auto-deploy-app}
+    auto_chart_base=$(dirname $auto_chart)
+    auto_chart_name=$(basename $auto_chart)
+    auto_chart_name=${auto_chart_name%.tgz}
+    auto_chart_name=${auto_chart_name%.tar.gz}
+  else
+    auto_chart="chart"
+    auto_chart_name="chart"
+  fi
+
+  helm init --client-only
+  helm repo add $auto_chart_base ${AUTO_DEVOPS_CHART_REPOSITORY:-https://charts.gitlab.io}
+  if [[ ! -d "$auto_chart" ]]; then
+    helm fetch ${auto_chart} --untar
+  fi
+  if [ "$auto_chart_name" != "chart" ]; then
+    mv ${auto_chart_name} chart
+  fi
+
+  helm dependency update chart/
+  helm dependency build chart/
+}
+
+```
 
 ### Manual Usage
 
