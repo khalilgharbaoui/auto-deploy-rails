@@ -91,7 +91,7 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | worker.enabled                |             | `true` |
-| worker.command                |             | `bundle exec sidekiq` |
+| worker.command                |             | `sidekiq` |
 | worker.replicaCount           |             | 1 |
 | worker.sidekiq_alive.enabled  |             | `true` |
 | worker.sidekiq_alive.livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |

@@ -34,7 +34,7 @@ readinessProbe:
   timeoutSeconds: 3
 worker:
   enabled: true
-  command: 'bundle exec sidekiq' # Note: Will override entrypoint.
+  command: 'sidekiq' # Note: Will override entrypoint.
   replicaCount: 1
   sidekiq_alive:
     enabled: true
