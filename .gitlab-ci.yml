@@ -20,8 +20,8 @@ pages:
     - helm dependency build
     - helm package . --destination ./public
     - helm repo index --url https://${CI_PROJECT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME} ./public
-    - mv ./public/auto-deploy-rails*.tgz /tmp
-    - mv ./public/index.yaml ./chart_site/ && cp ./README.md ./chart_site/readme.md
+    - mv -f ./public/auto-deploy-rails*.tgz /tmp
+    - mv -f ./public/index.yaml ./chart_site/_data && cp ./README.md ./chart_site/readme.md
     - cd chart_site && bundle install
     - jekyll build --destination ../public && rm ../public/feed.xml && cd ..
     - mv /tmp/*.tgz ./public
