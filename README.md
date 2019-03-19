@@ -1,9 +1,3 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
----
 # Auto-deploy rails chart
 
 Initially forked from GitLab's Auto-deploy Helm Chart, but due to need workers, this fork was created.
