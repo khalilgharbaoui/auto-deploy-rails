@@ -21,7 +21,8 @@ pages:
     - helm package . --destination ./public
     - helm repo index --url https://${CI_PROJECT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME} ./public
     - mv -f ./public/auto-deploy-rails*.tgz /tmp
-    - cp ./public/index.yaml ./chart_site/ && mv -f ./public/index.yaml ./chart_site/_data/ && cp ./README.md ./chart_site/readme.md
+    - cp ./public/index.yaml ./chart_site/ && mv -f ./public/index.yaml ./chart_site/_data/
+    - echo "---\nlayout: home\n---" > ./chart_site/readme.md && cat ./README.md >> ./chart_site/readme.md
     - cd chart_site && bundle install
     - jekyll build --destination ../public && rm ../public/feed.xml && cd ..
     - mv /tmp/*.tgz ./public
