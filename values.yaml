@@ -49,7 +49,6 @@ worker:
       timeoutSeconds: 5 # Can be less
       port: 7433
 postgresql:
-  replicaCount: 1
   enabled: true
 resources:
 #  limits:

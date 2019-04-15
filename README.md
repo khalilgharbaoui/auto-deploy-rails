@@ -82,8 +82,8 @@ Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/bl
 | service.url                   |             | `http://my.host.com/`              |
 | service.additionalHosts       | If present, this list will add additional hostnames to the server configuration. | `nil` |
 | service.commonName            | If present, this will define the ssl certificate common name to be used by CertManager. `service.url` and `service.additionalHosts` will be added as Subject Alternative Names (SANs) | `nil` |
-| service.externalPort          |             | `3000`                             |
-| service.internalPort          |             | `3000`                             |
+| service.externalPort          |             | `5000`                             |
+| service.internalPort          |             | `5000`                             |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
