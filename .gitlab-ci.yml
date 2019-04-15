@@ -9,7 +9,6 @@ lint:
   stage: test
   script:
     - helm lint .
-
 pages:
   stage: release
   script:
