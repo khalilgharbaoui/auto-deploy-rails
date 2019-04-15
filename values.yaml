@@ -22,8 +22,8 @@ service:
   url: http://my.host.com/
   additionalHosts:
   commonName:
-  externalPort: 3000
-  internalPort: 3000
+  externalPort: 5000
+  internalPort: 5000
 livenessProbe:
   path: "/"
   initialDelaySeconds: 15
@@ -33,9 +33,9 @@ readinessProbe:
   initialDelaySeconds: 5
   timeoutSeconds: 3
 worker:
+  replicaCount: 1
   enabled: true
   args: 'bundle exec sidekiq' # Note: Will override entrypoint.
-  replicaCount: 1
   sidekiq_alive:
     enabled: true
     livenessProbe:
@@ -48,9 +48,9 @@ worker:
       initialDelaySeconds: 120 # App specific, tune after deployment
       timeoutSeconds: 5 # Can be less
       port: 7433
-
 postgresql:
-  enabled: false
+  replicaCount: 1
+  enabled: true
 resources:
 #  limits:
 #    cpu: 100m
