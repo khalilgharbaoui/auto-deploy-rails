@@ -41,7 +41,7 @@ Created: {{entry.created | date_to_long_string}} {{entry.created | date: "%H:%M"
 
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
 
-Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io/auto-deploy-rails
+Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://khalilgharbaoui.gitlab.io/auto-deploy-rails
 Set ```AUTO_DEVOPS_CHART``` to auto-deploy-rails
 <br>
 <br>
@@ -50,6 +50,6 @@ Set ```AUTO_DEVOPS_CHART``` to auto-deploy-rails
 
 Add the repo
 
-```helm repo add auto-deploy-rails https://leifcr.gitlab.io/auto-deploy-rails/```
+```helm repo add auto-deploy-rails https://khalilgharbaoui.gitlab.io/auto-deploy-rails/```
 
-Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master/values.yaml) from the repository and modify to fit your app.
+Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/blob/master/values.yaml) from the repository and modify to fit your app.

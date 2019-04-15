@@ -1,6 +1,6 @@
 #!/bin/bash
 AUTO_DEVOPS_CHART=gitlab/auto-deploy-rails
-AUTO_DEVOPS_CHART_REPOSITORY=https://leifcr.gitlab.io/auto-deploy-rails
+AUTO_DEVOPS_CHART_REPOSITORY=https://khalilgharbaoui.gitlab.io/auto-deploy-rails
 function download_chart() {
   if [[ ! -d chart ]]; then
     auto_chart=${AUTO_DEVOPS_CHART:-gitlab/auto-deploy-app}

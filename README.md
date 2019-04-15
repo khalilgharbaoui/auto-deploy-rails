@@ -16,11 +16,11 @@ Delayed job should be a matter of adding the proper commands
 
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
 
-Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://leifcr.gitlab.io/auto-deploy-rails
+Set ```AUTO_DEVOPS_CHART_REPOSITORY``` to https://khalilgharbaoui.gitlab.io/auto-deploy-rails
 Set ```AUTO_DEVOPS_CHART``` to gitlab/auto-deploy-rails
 
-*Note:* due to a bug in the .gitlab-ci.yml, you need to use gitlab/auto-deploy-rails instead of auto-deploy-rails/auto-deploy-rails, 
-even if the latter makes sense looking at the repo. This will conflict if you are using gitlab charts on the same helm instance. As 
+*Note:* due to a bug in the .gitlab-ci.yml, you need to use gitlab/auto-deploy-rails instead of auto-deploy-rails/auto-deploy-rails,
+even if the latter makes sense looking at the repo. This will conflict if you are using gitlab charts on the same helm instance. As
 you are unlikely to use gitlab charts during deployment, it should work. If you use gitlab charts as well, look at the solution below.
 
 You can also opt to change download_chart in gitlab-ci.yml to the following:
@@ -57,9 +57,9 @@ function download_chart() {
 
 Add the repo
 
-```helm repo add auto-deploy-rails https://leifcr.gitlab.io/auto-deploy-rails/```
+```helm repo add auto-deploy-rails https://khalilgharbaoui.gitlab.io/auto-deploy-rails/```
 
-Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master/values.yaml) from the repository and modify to fit your app.
+Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/blob/master/values.yaml) from the repository and modify to fit your app.
 
 ## Configuration
 
