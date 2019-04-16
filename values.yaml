@@ -35,11 +35,8 @@ readinessProbe:
 worker:
   replicaCount: 1
   enabled: true
-  command: bundle exec sidekiq
-  # args:
-  #   - bundle
-  #   - exec
-  #   - sidekiq # Note: Will override entrypoint.
+  args:
+    - pwd && cd /opt/app/ && bundle exec sidekiq # Note: Will override entrypoint.
   sidekiq_alive:
     enabled: true
     livenessProbe:
