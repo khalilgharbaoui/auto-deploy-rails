@@ -36,8 +36,7 @@ worker:
   replicaCount: 1
   enabled: true
   # args: 'bundle exec sidekiq' # Note: Will override entrypoint.
-  command: ["bundle", "exec", "sidekiq"]
-  args: []
+  args: ["bundle", "exec", "sidekiq"]
   sidekiq_alive:
     enabled: true
     livenessProbe:

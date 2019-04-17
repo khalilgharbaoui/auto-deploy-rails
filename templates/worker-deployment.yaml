@@ -28,8 +28,7 @@ spec:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command:
-          - {{ .Values.worker.command }}
+        command: ["/bin/sh"]
         args: ["{{ .Values.worker.args }}"]
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:
