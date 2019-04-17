@@ -30,3 +30,5 @@ pages:
       - public
   only:
     - master
+  tags:
+    - kghelper
