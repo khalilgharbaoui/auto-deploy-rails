@@ -1,12 +1,7 @@
 image: ruby:2.6
-tags:
-  - kghelper
-
-
 stages:
   - test
   - release
-
 lint:
   image: registry.gitlab.com/charts/alpine-helm
   stage: test
@@ -14,7 +9,6 @@ lint:
     - helm lint .
   tags:
     - kghelper
-
 pages:
   stage: release
   script:
