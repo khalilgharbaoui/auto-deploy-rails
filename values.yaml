@@ -35,18 +35,19 @@ readinessProbe:
 worker:
   replicaCount: 1
   enabled: true
-  args:
-    - pwd # Note: Will override entrypoint.
+  # args: 'bundle exec sidekiq' # Note: Will override entrypoint.
+  command: ["/bin/sh"]
+  args: ["-c", "echo hello"]
   sidekiq_alive:
     enabled: true
     livenessProbe:
       path: "/"
-      initialDelaySeconds: 10 # App specific, tune after deployment
-      timeoutSeconds: 5
+      initialDelaySeconds: 120 # App specific, tune after deployment
+      timeoutSeconds: 15
       port: 7433
     readinessProbe:
       path: "/"
-      initialDelaySeconds: 10 # App specific, tune after deployment
+      initialDelaySeconds: 120 # App specific, tune after deployment
       timeoutSeconds: 5 # Can be less
       port: 7433
 postgresql:
