@@ -27,6 +27,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        workingDir: '/opt/app/'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ["/bin/sh"]
         args: ["-c","{{ .Values.worker.args }}"]
