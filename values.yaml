@@ -30,8 +30,8 @@ livenessProbe:
   timeoutSeconds: 15
 readinessProbe:
   path: "/"
-  initialDelaySeconds: 5
-  timeoutSeconds: 3
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
 worker:
   replicaCount: 1
   enabled: true
@@ -41,13 +41,13 @@ worker:
     enabled: true
     livenessProbe:
       path: "/"
-      initialDelaySeconds: 10 # App specific, tune after deployment
-      timeoutSeconds: 11
+      initialDelaySeconds: 120 # App specific, tune after deployment
+      timeoutSeconds: 10
       port: 7433
     readinessProbe:
       path: "/"
-      initialDelaySeconds: 10 # App specific, tune after deployment
-      timeoutSeconds: 11 # Can be less
+      initialDelaySeconds: 120 # App specific, tune after deployment
+      timeoutSeconds: 10 # Can be less
       port: 7433
 postgresql:
   enabled: true
