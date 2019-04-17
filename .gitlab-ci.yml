@@ -1,4 +1,7 @@
 image: ruby:2.6
+tags:
+  - kghelper
+
 
 stages:
   - test
@@ -9,6 +12,9 @@ lint:
   stage: test
   script:
     - helm lint .
+  tags:
+    - kghelper
+
 pages:
   stage: release
   script:
