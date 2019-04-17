@@ -29,7 +29,7 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ["/bin/sh"]
-        args: ["{{ .Values.worker.args }}"]
+        args: ["-c","{{ .Values.worker.args }}"]
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:
           httpGet:
