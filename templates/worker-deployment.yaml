@@ -3,6 +3,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "trackableappname" . }}-worker
+  annotations:
+    {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+    {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
   labels:
     app: {{ template "appname" . }}-worker
     track: "{{ .Values.application.track }}"
@@ -16,6 +19,11 @@ spec:
     metadata:
       annotations:
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
+        {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+        {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
+{{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
       labels:
         app: {{ template "appname" . }}
         track: "{{ .Values.application.track }}"
@@ -27,29 +35,8 @@ spec:
       containers:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        workingDir: '/opt/app/'
+        # workingDir: '/opt/app/'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/bin/sh"]
-        args: ["-c","{{ .Values.worker.args }}"]
-        {{- if .Values.worker.sidekiq_alive.enabled }}
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.worker.sidekiq_alive.livenessProbe.path }}
-            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
-          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.timeoutSeconds }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.worker.sidekiq_alive.readinessProbe.path }}
-            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
-          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
-          timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
-        lifecycle:
-          preStop:
-            exec:
-              # SIGTERM triggers a quick exit; gracefully terminate instead
-              command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
-        {{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:
@@ -58,6 +45,8 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        command: ["/bin/sh"]
+        args: ["-c","{{ .Values.worker.args }}"]
         # livenessProbe:
         #   httpGet:
         #     path: {{ .Values.livenessProbe.path }}
@@ -70,6 +59,27 @@ spec:
         #     port: {{ .Values.service.internalPort }}
         #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
         #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        {{- if .Values.worker.sidekiq_alive.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.worker.sidekiq_alive.livenessProbe.path }}
+            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
+            # scheme: {{ .Values.worker.sidekiq_alive.livenessProbe.scheme }}
+          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.worker.sidekiq_alive.readinessProbe.path }}
+            port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
+            # scheme: {{ .Values.worker.sidekiq_alive.readinessProbe.scheme }}
+          initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
+        lifecycle:
+          preStop:
+            exec:
+              # SIGTERM triggers a quick exit; gracefully terminate instead
+              command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- end -}}

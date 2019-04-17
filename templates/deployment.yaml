@@ -3,6 +3,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "trackableappname" . }}
+  annotations:
+    {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+    {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
   labels:
     app: {{ template "appname" . }}
     track: "{{ .Values.application.track }}"
@@ -11,11 +14,16 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.service.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       annotations:
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
+        {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+        {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
+{{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
       labels:
         app: {{ template "appname" . }}
         track: "{{ .Values.application.track }}"
@@ -43,12 +51,14 @@ spec:
           httpGet:
             path: {{ .Values.livenessProbe.path }}
             port: {{ .Values.service.internalPort }}
+            scheme: {{ .Values.livenessProbe.scheme }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.path }}
             port: {{ .Values.service.internalPort }}
+            scheme: {{ .Values.readinessProbe.scheme }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         resources:

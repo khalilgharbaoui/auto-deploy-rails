@@ -1,12 +1,14 @@
 # Default values for chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+replicaCount: 1
 image:
   repository: gitlab.example.com/group/project
   tag: stable
-  PullPolicy: IfNotPresent
+  pullPolicy: Always
   secrets:
     - name: gitlab-registry
+podAnnotations: {}
 application:
   track: stable
   tier: web
@@ -14,24 +16,6 @@ application:
   initializeCommand:
   secretName:
   secretChecksum:
-service:
-  replicaCount: 1
-  enabled: true
-  name: web
-  type: ClusterIP
-  url: http://my.host.com/
-  additionalHosts:
-  commonName:
-  externalPort: 5000
-  internalPort: 5000
-livenessProbe:
-  path: "/"
-  initialDelaySeconds: 15
-  timeoutSeconds: 15
-readinessProbe:
-  path: "/"
-  initialDelaySeconds: 15
-  timeoutSeconds: 15
 worker:
   replicaCount: 1
   enabled: true
@@ -41,14 +25,44 @@ worker:
     enabled: true
     livenessProbe:
       path: "/"
-      initialDelaySeconds: 120 # App specific, tune after deployment
-      timeoutSeconds: 10
+      initialDelaySeconds: 15 # App specific, tune after deployment
+      timeoutSeconds: 15
       port: 7433
     readinessProbe:
       path: "/"
-      initialDelaySeconds: 120 # App specific, tune after deployment
-      timeoutSeconds: 10 # Can be less
+      initialDelaySeconds: 5 # App specific, tune after deployment
+      timeoutSeconds: 3 # Can be less
       port: 7433
+gitlab:
+  app:
+  env:
+service:
+  enabled: true
+  annotations: {}
+  name: web
+  type: ClusterIP
+  url: http://my.host.com/
+  additionalHosts:
+  commonName:
+  externalPort: 5000
+  internalPort: 5000
+ingress:
+  tls:
+    enabled: true
+    secretName: ""
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+livenessProbe:
+  path: "/"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  scheme: "HTTP"
+readinessProbe:
+  path: "/"
+  initialDelaySeconds: 5
+  timeoutSeconds: 3
+  scheme: "HTTP"
 postgresql:
   enabled: true
 resources:
