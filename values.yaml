@@ -74,9 +74,9 @@ resources:
 #    memory: 128Mi
 redis:
   enabled: true
+  usePassword: false
   cluster:
     enable: false
-    usePassword: false
   resources:
   #  limits:
   #    cpu: 100m
