@@ -72,7 +72,16 @@ resources:
 #  requests:
 #    cpu: 100m
 #    memory: 128Mi
-
+redis:
+  enabled: true
+  cluster: false
+  resources:
+  #  limits:
+  #    cpu: 100m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 128Mi
 ## Configure PodDisruptionBudget
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
 #
