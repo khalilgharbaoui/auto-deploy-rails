@@ -76,6 +76,7 @@ redis:
   enabled: true
   cluster:
     enable: false
+    usePassword: false
   resources:
   #  limits:
   #    cpu: 100m
