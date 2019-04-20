@@ -12,6 +12,10 @@ Delayed job should be a matter of adding the proper commands
 
 ## Usage with helm
 
+```
+
+```
+
 ### With gitlab
 
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
@@ -69,7 +73,7 @@ Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/bl
 | image.repository              |             | `gitlab.example.com/group/project` |
 | image.tag                     |             | `stable`                           |
 | image.pullPolicy              |             | `Always`                           |
-| image.secrets                 |             | `[name: gitlab-registry]`          |
+| image.secrets                |             | `[name: gitlab-registry]`          |
 | application.track             |             | `stable`                           |
 | application.tier              |             | `web`                              |
 | application.migrateCommand    | If present, this variable will run as a shell command within an application Container as a Helm pre-upgrade Hook. Intended to run migration commands. | `nil` |
@@ -91,9 +95,10 @@ Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/bl
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | worker.enabled                |             | `true` |
-| worker.command                |             | `sidekiq` |
+| worker.command                |             | `['/bin/sh']`|
+| worker.args                |             | `['bundle', 'exec', 'sidekiq']` Note: Will override entrypoint|
 | worker.replicaCount           |             | 1 |
-| worker.sidekiq_alive.enabled  |             | `true` |
+| worker.sidekiq_alive.enabled  |             | `false` Note:  sidekiq_alive is disabled is by default using it requires: https://github.com/arturictus/sidekiq_alive|
 | worker.sidekiq_alive.livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | worker.sidekiq_alive.livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | worker.sidekiq_alive.livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
@@ -102,7 +107,11 @@ Copy [```values.yaml```](https://gitlab.com/khalilgharbaoui/auto-deploy-rails/bl
 | worker.sidekiq_alive.readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`   |
 | worker.sidekiq_alive.readinessProbe.port  | Port for sidekiq_alive | `7433`                               |
 | worker.sidekiq_alive.readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
-| postgresql.enabled            |             | `false`                            |
+
+| postgresql.enabled            |             | `true`                            |
+| redis.enabled            |             | `true`                            |
+| redis.usePassword            |             | `false`                            |
+| redis.cluster.enable            |             | `false`                            |
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
 | podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |

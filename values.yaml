@@ -19,8 +19,14 @@ application:
 worker:
   replicaCount: 1
   enabled: true
-  command: ["/bin/sh"]
-  args: 'bundle exec sidekiq' # Note: Will override entrypoint.
+  command:
+    - /bin/sh
+  args: # Note: Will override entrypoint.
+    - bundle
+    - exec
+    - sidekiq
+ # sidekiq_alive is disabled is by default using it require:
+ # https://github.com/arturictus/sidekiq_alive
   sidekiq_alive:
     enabled: false
     livenessProbe:

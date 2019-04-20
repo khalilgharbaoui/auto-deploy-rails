@@ -44,6 +44,8 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        - name: REDIS_URL
+          value: {{ .Values.application.redis_url | quote }}
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}

@@ -45,6 +45,8 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        - name: REDIS_URL
+          value: {{ .Values.application.redis_url | quote }}
         command: ["/bin/sh"]
         args: ["-c","{{ .Values.worker.args }}"]
         # livenessProbe:
@@ -60,6 +62,8 @@ spec:
         #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
         #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         {{- if .Values.worker.sidekiq_alive.enabled }}
+        # sidekiq_alive is disabled is by default to use you need this gem:
+        # https://github.com/arturictus/sidekiq_alive
         livenessProbe:
           httpGet:
             path: {{ .Values.worker.sidekiq_alive.livenessProbe.path }}
