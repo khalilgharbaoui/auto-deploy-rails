@@ -13,10 +13,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Auto Devops Rails for Gitlab
+title: Auto-deploy Rails Helm chart with Sidekiq, Redis & PostgreSQL support
 email: kaygeee@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Chart for deploying rails apps with Auto Devops on gitlab.
+  Chart for deploying Rails apps on K8s with Auto Devops on Gitlab with support for Sidekiq workers, Redis and PostgreSQL
 baseurl: "/auto-deploy-rails" # the subpath of your site, e.g. /blog
 url: "https://khalilgharbaoui.gitlab.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: kkgg187

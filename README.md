@@ -1,4 +1,4 @@
-# Auto-deploy Rails helm chart
+# Auto-deploy Rails Helm chart with Sidekiq, Redis & PostgreSQL support
 
 Forked from GitLab's Auto-deploy Helm Chart Initially.
 
