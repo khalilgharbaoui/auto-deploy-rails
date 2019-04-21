@@ -1,21 +1,59 @@
-# Auto-deploy rails chart
+# Auto-deploy Rails helm chart
 
-Initially forked from GitLab's Auto-deploy Helm Chart, but due to need workers, this fork was created.
+Forked from GitLab's Auto-deploy Helm Chart Initially.
 
-Initially sidekiq is implemented.
-
-Delayed job should be a matter of adding the proper commands
-
+Added support for `Rails`, `Sidekiq`, `Redis` and `PostgreSQL`.
+(sidekiq and redis are disabled by default see configuration below!)
 ## Requirements
 
 - Helm `2.9.0` and above is required in order support `"helm.sh/hook-delete-policy": before-hook-creation` for migrations
 
-## Usage with helm
-
+## Usage with helm in Gitlab.
+Example:
 ```
+echo "1️Deploying first release with database initialization..."
+      helm upgrade --install \
+        --wait \
+        --set replicaCount="$replicas" \
+        --set releaseOverride="$CI_ENVIRONMENT_SLUG" \
+        --set service.enabled="$service_enabled" \
+        --set service.commonName="$CI_COMMIT_REF_SLUG-preview.$KUBE_INGRESS_BASE_DOMAIN" \
+        --set service.url="$CI_ENVIRONMENT_URL" \
+        --set service.additionalHosts="$additional_hosts" \
+        --set image.repository="$CI_APPLICATION_REPOSITORY" \
+        --set image.tag="$CI_APPLICATION_TAG" \
+        --set image.pullPolicy=IfNotPresent \
+        --set image.secrets[0].name="$secret_name" \
+        --set redis.enabled="true" \
+        --set redis.cluster.enabled="false" \
+        --set redis.usePassword="false" \
+        --set redis.persistence.enabled=false \
+        --set postgresql.enabled="$postgres_enabled" \
+        --set postgresql.nameOverride="postgres" \
+        --set postgresql.postgresUser="$POSTGRES_USER" \
+        --set postgresql.postgresPassword="$POSTGRES_PASSWORD" \
+        --set postgresql.postgresDatabase="$POSTGRES_DB" \
+        --set postgresql.imageTag="$POSTGRES_VERSION" \
+        --set application.track="$track" \
+        --set application.database_url="$DATABASE_URL" \
+        --set application.redis_url="$REDIS_URL" \
+        --set application.secretName="$APPLICATION_SECRET_NAME" \
+        --set application.secretChecksum="$APPLICATION_SECRET_CHECKSUM" \
+        --set application.initializeCommand="$DB_INITIALIZE" \
+        --set worker.enabled="true" \
+        --namespace="$CI_COMMIT_REF_NAME-$KUBE_NAMESPACE" \
+        "$name" \
+        chart/
 
+      echo "2️Deploying second release...(running migrations)"
+      helm upgrade --reuse-values \
+        --wait \
+        --set application.initializeCommand="" \
+        --set application.migrateCommand="$DB_MIGRATE" \
+        --namespace="$CI_COMMIT_REF_NAME-$KUBE_NAMESPACE" \
+        "$name" \
+        chart/
 ```
-
 ### With gitlab
 
 In your CI env variables, or in your modified ```.gitlab-ci.yml``` set the following:
@@ -54,7 +92,6 @@ function download_chart() {
   helm dependency update chart/
   helm dependency build chart/
 }
-
 ```
 
 ### Manual Usage

@@ -56,7 +56,7 @@ resources:
 #    cpu: 100m
 #    memory: 128Mi
 redis:
-  enabled: true
+  enabled: false
   usePassword: false
   cluster:
     enable: false
@@ -69,7 +69,7 @@ redis:
   #    memory: 128Mi
 worker:
   replicaCount: 1
-  enabled: true
+  enabled: false
   command: ['/bin/sh']
   args: 'bundle exec sidekiq' # Note: Will override entrypoint.
  # sidekiq_alive is disabled is by default using it require:
