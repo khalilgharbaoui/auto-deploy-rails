@@ -16,25 +16,6 @@ application:
   initializeCommand:
   secretName:
   secretChecksum:
-worker:
-  replicaCount: 1
-  enabled: true
-  command: ['/bin/sh']
-  args: 'bundle exec sidekiq' # Note: Will override entrypoint.
- # sidekiq_alive is disabled is by default using it require:
- # https://github.com/arturictus/sidekiq_alive
-  sidekiq_alive:
-    enabled: false
-    livenessProbe:
-      path: "/"
-      initialDelaySeconds: 15 # App specific, tune after deployment
-      timeoutSeconds: 15
-      port: 7433
-    readinessProbe:
-      path: "/"
-      initialDelaySeconds: 5 # App specific, tune after deployment
-      timeoutSeconds: 3 # Can be less
-      port: 7433
 gitlab:
   app:
   env:
@@ -86,6 +67,25 @@ redis:
   #  requests:
   #    cpu: 100m
   #    memory: 128Mi
+worker:
+  replicaCount: 1
+  enabled: true
+  command: ['/bin/sh']
+  args: 'bundle exec sidekiq' # Note: Will override entrypoint.
+ # sidekiq_alive is disabled is by default using it require:
+ # https://github.com/arturictus/sidekiq_alive
+  sidekiq_alive:
+    enabled: false
+    livenessProbe:
+      path: "/"
+      initialDelaySeconds: 15 # App specific, tune after deployment
+      timeoutSeconds: 15
+      port: 7433
+    readinessProbe:
+      path: "/"
+      initialDelaySeconds: 5 # App specific, tune after deployment
+      timeoutSeconds: 3 # Can be less
+      port: 7433
 ## Configure PodDisruptionBudget
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
 #
