@@ -16,11 +16,9 @@ This helm chart is written to deploy rails apps with optional workers using Helm
 * Redis can be provisioned.
 * PostgreSQL database can be provisioned.
 <br>
-<br>
 
 ## Options:
 See [readme](readme.html)
-<br>
 <br>
 
 ## Latest release info
