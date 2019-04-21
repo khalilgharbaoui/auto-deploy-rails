@@ -35,7 +35,6 @@ spec:
       containers:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        # workingDir: '/opt/app/'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- if .Values.application.secretName }}
         envFrom:
@@ -45,37 +44,25 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        {{- if .Values.redis.enabled }}
         - name: REDIS_URL
           value: {{ .Values.application.redis_url | quote }}
+        {{- if .Values.worker.enabled }}
         command: ["/bin/sh"]
         args: ["-c","{{ .Values.worker.args }}"]
-        # livenessProbe:
-        #   httpGet:
-        #     path: {{ .Values.livenessProbe.path }}
-        #     port: {{ .Values.service.internalPort }}
-        #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-        #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        # readinessProbe:
-        #   httpGet:
-        #     path: {{ .Values.readinessProbe.path }}
-        #     port: {{ .Values.service.internalPort }}
-        #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-        #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         {{- if .Values.worker.sidekiq_alive.enabled }}
-        # sidekiq_alive is disabled is by default to use you need this gem:
+        # sidekiq_alive is disabled is by default using it requires:
         # https://github.com/arturictus/sidekiq_alive
         livenessProbe:
           httpGet:
             path: {{ .Values.worker.sidekiq_alive.livenessProbe.path }}
             port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
-            # scheme: {{ .Values.worker.sidekiq_alive.livenessProbe.scheme }}
           initialDelaySeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.timeoutSeconds }}
         readinessProbe:
           httpGet:
             path: {{ .Values.worker.sidekiq_alive.readinessProbe.path }}
             port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
-            # scheme: {{ .Values.worker.sidekiq_alive.readinessProbe.scheme }}
           initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
         lifecycle:
@@ -83,6 +70,8 @@ spec:
             exec:
               # SIGTERM triggers a quick exit; gracefully terminate instead
               command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
+        {{- end }}
+        {{- end }}
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
