@@ -1,4 +1,5 @@
 {{- if not .Values.application.initializeCommand -}}
+{{- if .Values.worker.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -47,7 +48,6 @@ spec:
         {{- if .Values.redis.enabled }}
         - name: REDIS_URL
           value: {{ .Values.application.redis_url | quote }}
-        {{- if .Values.worker.enabled }}
         command: ["/bin/sh"]
         args: ["-c","{{ .Values.worker.args }}"]
         {{- if .Values.worker.sidekiq_alive.enabled }}
@@ -72,7 +72,7 @@ spec:
               command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
         {{- end }}
         {{- end }}
-        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- end }}
 {{- end -}}
